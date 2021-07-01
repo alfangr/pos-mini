@@ -16,7 +16,7 @@ class MerchantController extends Controller
     public function index()
     {
         try {
-            $merchants = Merchant::all();
+            $merchants = Merchant::with('hasOutlets')->get();
 
             return response()->json( [
                 'error' => false, 

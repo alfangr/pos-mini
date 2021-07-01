@@ -50,7 +50,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('product', ['as' => 'allProduct', 'uses' => 'ProductController@index']);
         $router->post('product', ['as' => 'createProduct', 'uses' => 'ProductController@store']);
         $router->get('product/{id}', ['as' => 'showProduct', 'uses' => 'ProductController@show']);
-        $router->put('product/{id}', ['as' => 'updateProduct', 'uses' => 'ProductController@update']);
+        $router->post('product/{id}', ['as' => 'updateProduct', 'uses' => 'ProductController@update']);
         $router->delete('product/{id}', ['as' => 'destroyProduct', 'uses' => 'ProductController@destroy']);
     });
 });

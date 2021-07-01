@@ -49,18 +49,22 @@ class ProductController extends Controller
 
         try {
             $data = [
-                "role_id" => $request->role_id,
-                "username" => $request->username,
-                "email" => $request->email,
-                "password" => app('hash')->make($request->password),
-                "password_confirmation" => $request->password_confirmation,
+                "merchant_id" => $request->merchant_id,
+                "sku" => $request->sku,
+                "name" => $request->name,
             ];
-            $newUser = User::create($data);
+            if($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = $file->getClientOriginalName();
+                $file->storeAs('public', $filename);
+                $data['image'] = storage_path('app/public/'.$filename);
+            }
+            $newProduct = Product::create($data);
 
             return response()->json( [
                 'error' => false, 
-                'message' => 'Add new user successfully', 
-                'data' => $newUser
+                'message' => 'Add new product successfully', 
+                'data' => $newProduct
             ], 201);
 
         } catch (\Exception $e) {
@@ -80,18 +84,30 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        try {
+            $product = Product::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+            if($product) {
+                return response()->json( [
+                    'error' => false, 
+                    'message' => 'Detail of product', 
+                    'data' => $product
+                ], 202);
+            }
+
+            return response()->json( [
+                'error' => true, 
+                'message' => 'Detail of product not found', 
+                'data' => null
+            ], 404);
+
+        } catch (\Exception $e) {
+            return response()->json( [
+                'error' => true, 
+                'message' => 'Something wrong on the server, please contact us.', 
+                'data' => null
+            ], 500);
+        }
     }
 
     /**
@@ -103,7 +119,50 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'merchant_id' => 'required',
+            'sku' => 'required|unique:products',
+            'name' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        try {
+            $product = Product::find($id);
+
+            if($product) {
+                $data = [
+                    "merchant_id" => $request->merchant_id,
+                    "sku" => $request->sku,
+                    "name" => $request->name,
+                ];
+                if($request->hasFile('image')) {
+                    $file = $request->file('image');
+                    $filename = $file->getClientOriginalName();
+                    $file->storeAs('public', $filename);
+                    $data['image'] = storage_path('app/public/'.$filename);
+                }
+                $productUpdated = $product->update($data);
+
+                return response()->json( [
+                    'error' => false, 
+                    'message' => 'Product updated successfully', 
+                    'data' => $productUpdated
+                ], 200);
+            }
+
+            return response()->json( [
+                'error' => true, 
+                'message' => 'Product not found', 
+                'data' => null
+            ], 404);
+
+        } catch (\Exception $e) {
+            return response()->json( [
+                'error' => true, 
+                'message' => 'Something wrong on the server, please contact us.', 
+                'data' => null
+            ], 500);
+        }
     }
 
     /**
@@ -114,6 +173,32 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+
+        try {
+
+            if($product) {
+                $product->delete();
+
+                return response()->json( [
+                    'error' => false, 
+                    'message' => 'Product deleted successfully', 
+                    'data' => $product
+                ], 200);
+            }
+
+            return response()->json( [
+                'error' => true, 
+                'message' => 'Product not found', 
+                'data' => null
+            ], 404);
+
+        } catch (\Exception $e) {
+            return response()->json( [
+                'error' => true, 
+                'message' => 'Something wrong on the server, please contact us.', 
+                'data' => null
+            ], 500);
+        }
     }
 }

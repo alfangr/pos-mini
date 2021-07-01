@@ -16,7 +16,7 @@ class OutletController extends Controller
     public function index()
     {
         try {
-            $outlets = Outlet::all();
+            $outlets = Outlet::with('hasMerchant')->get();
 
             return response()->json( [
                 'error' => false, 

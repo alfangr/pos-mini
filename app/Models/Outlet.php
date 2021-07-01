@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Merchant;
 use Illuminate\Database\Eloquent\Model;
 
 class Outlet extends Model
@@ -13,4 +14,8 @@ class Outlet extends Model
         'address',
         'phone'
     ];
+
+    public function hasMerchant() {
+        return $this->belongsTo(Merchant::class, 'merchant_id', 'id');
+    }
 }

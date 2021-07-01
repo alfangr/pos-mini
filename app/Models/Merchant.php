@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Outlet;
 use Illuminate\Database\Eloquent\Model;
 
 class Merchant extends Model
@@ -12,4 +13,8 @@ class Merchant extends Model
         'address',
         'phone'
     ];
+
+    public function hasOutlets() {
+        return $this->hasMany(Outlet::class, 'merchant_id', 'id');
+    }
 }
