@@ -42,9 +42,9 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'merchant_id' => 'required',
-            'sku' => 'required|unique:users',
-            'name' => 'required|email|unique:users,email',
-            'image' => 'required|confirmed',
+            'sku' => 'required|unique:products',
+            'name' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         try {

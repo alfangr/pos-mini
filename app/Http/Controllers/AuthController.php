@@ -29,7 +29,6 @@ class AuthController extends Controller
         
         $this->validate($request, [
             'role_id' => 'required',
-            'display_name' => 'required',
             'username' => 'required|string|unique:users',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
@@ -38,7 +37,6 @@ class AuthController extends Controller
         try {
             $data = [
                 "role_id" => $request->role_id,
-                "display_name" => $request->display_name,
                 "username" => $request->username,
                 "email" => $request->email,
                 "password" => app('hash')->make($request->password),

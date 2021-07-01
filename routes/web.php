@@ -29,16 +29,28 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['middleware' => 'auth','prefix' => 'v1'], function ($router) {
         $router->get('profile', ['as' => 'profile', 'uses' => 'AuthController@profile']);
 
-        $router->get('user', ['as' => 'user', 'uses' => 'UserController@index']);
-        $router->post('user', ['as' => 'user', 'uses' => 'UserController@store']);
-        $router->get('user/{id}', ['as' => 'user', 'uses' => 'UserController@show']);
-        $router->put('user/{id}', ['as' => 'user', 'uses' => 'UserController@update']);
-        $router->delete('user/{id}', ['as' => 'user', 'uses' => 'UserController@destroy']);
+        $router->get('user', ['as' => 'allUser', 'uses' => 'UserController@index']);
+        $router->post('user', ['as' => 'createUser', 'uses' => 'UserController@store']);
+        $router->get('user/{id}', ['as' => 'showUser', 'uses' => 'UserController@show']);
+        $router->put('user/{id}', ['as' => 'updateUser', 'uses' => 'UserController@update']);
+        $router->delete('user/{id}', ['as' => 'destroyUser', 'uses' => 'UserController@destroy']);
 
-        $router->get('product', ['as' => 'product', 'uses' => 'ProductController@index']);
-        $router->post('product', ['as' => 'product', 'uses' => 'ProductController@store']);
-        $router->get('product/{id}', ['as' => 'product', 'uses' => 'ProductController@show']);
-        $router->put('product/{id}', ['as' => 'product', 'uses' => 'ProductController@update']);
-        $router->delete('product/{id}', ['as' => 'product', 'uses' => 'ProductController@destroy']);
+        $router->get('merchant', ['as' => 'allMerchant', 'uses' => 'MerchantController@index']);
+        $router->post('merchant', ['as' => 'createMerchant', 'uses' => 'MerchantController@store']);
+        $router->get('merchant/{id}', ['as' => 'showMerchant', 'uses' => 'MerchantController@show']);
+        $router->put('merchant/{id}', ['as' => 'updateMerchant', 'uses' => 'MerchantController@update']);
+        $router->delete('merchant/{id}', ['as' => 'destroyMerchant', 'uses' => 'MerchantController@destroy']);
+
+        $router->get('outlet', ['as' => 'allOutlet', 'uses' => 'OutletController@index']);
+        $router->post('outlet', ['as' => 'createOutlet', 'uses' => 'OutletController@store']);
+        $router->get('outlet/{id}', ['as' => 'showOutlet', 'uses' => 'OutletController@show']);
+        $router->put('outlet/{id}', ['as' => 'updateOutlet', 'uses' => 'OutletController@update']);
+        $router->delete('outlet/{id}', ['as' => 'destroyOutlet', 'uses' => 'OutletController@destroy']);
+
+        $router->get('product', ['as' => 'allProduct', 'uses' => 'ProductController@index']);
+        $router->post('product', ['as' => 'createProduct', 'uses' => 'ProductController@store']);
+        $router->get('product/{id}', ['as' => 'showProduct', 'uses' => 'ProductController@show']);
+        $router->put('product/{id}', ['as' => 'updateProduct', 'uses' => 'ProductController@update']);
+        $router->delete('product/{id}', ['as' => 'destroyProduct', 'uses' => 'ProductController@destroy']);
     });
 });
